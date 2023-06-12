@@ -54,10 +54,11 @@ function searchFlight() {
 }
 
 
-const FlightSearchForm = () => {
+const FlightSearchForm = (props) => {
 
-    const [enteredDepartureAirport, setDepartureAirport] = useState('');
-    const [enteredArrivalAirport, setArrivalAirport] = useState('');
+    const [enteredDepartureAirport, setDepartureAirport] = useState('Warszawa');
+    const [enteredArrivalAirport, setArrivalAirport] = useState('Poznan');
+    const [selectedDepartureDate, setSelectedDepartureDate] = useState('')
 
     const DEPAirportChangeHandler = (event) => {
         setDepartureAirport(event.target.value);
@@ -67,10 +68,22 @@ const FlightSearchForm = () => {
         setArrivalAirport(event.target.value);
     }
 
+    const DEPDateChangeHandler = (event) => {
+        setSelectedDepartureDate(event.target.value);
+    }
 
     const flightSearchHandler = (event) => {
         event.preventDefault();
         console.log("--- Form submited, flightSearchHandler triggered")
+
+        const params = {
+            departureAirport: enteredDepartureAirport,
+            arrivalAirport: enteredArrivalAirport,
+            departureDate: selectedDepartureDate
+        }
+
+        props.onSearchFlights(params);
+        
     }
 
     return (<Card>
@@ -78,7 +91,7 @@ const FlightSearchForm = () => {
             <TextField id="fly_from" label="From" variant="outlined" value={enteredDepartureAirport} onChange={DEPAirportChangeHandler}/>
             <TextField id="fly_to" label="To" variant="outlined" value={enteredArrivalAirport} onChange={ARRAirportChangeHandler}/>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker id="departure_date" label="Date" />
+            <DatePicker id="departure_date" label="Date" value={selectedDepartureDate} onChange={DEPDateChangeHandler} />
             </LocalizationProvider>
             <Button type="submit" variant="contained" onClick={searchFlight}>Search</Button>
         </form>
