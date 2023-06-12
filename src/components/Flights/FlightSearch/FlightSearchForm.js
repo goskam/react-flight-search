@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Card from '../../UI/Card'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -53,24 +53,35 @@ function searchFlight() {
 
 }
 
+
 const FlightSearchForm = () => {
 
+    const [enteredDepartureAirport, setDepartureAirport] = useState('');
+    const [enteredArrivalAirport, setArrivalAirport] = useState('');
 
+    const DEPAirportChangeHandler = (event) => {
+        setDepartureAirport(event.target.value);
+    }
+
+    const ARRAirportChangeHandler = (event) => {
+        setArrivalAirport(event.target.value);
+    }
+
+
+    const flightSearchHandler = (event) => {
+        event.preventDefault();
+        console.log("--- Form submited, flightSearchHandler triggered")
+    }
 
     return (<Card>
-        <div display="flex">        
-        <TextField id="outlined-basic" label="From" variant="outlined" />
-        <TextField id="outlined-basic" label="To" variant="outlined" />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker label="Date" />
-        </LocalizationProvider>
-
-        <Button variant="contained" onClick={searchFlight}>Search</Button>
-
-        </div>
-
-
-
+        <form onSubmit={flightSearchHandler} display="flex">        
+            <TextField id="fly_from" label="From" variant="outlined" value={enteredDepartureAirport} onChange={DEPAirportChangeHandler}/>
+            <TextField id="fly_to" label="To" variant="outlined" value={enteredArrivalAirport} onChange={ARRAirportChangeHandler}/>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker id="departure_date" label="Date" />
+            </LocalizationProvider>
+            <Button type="submit" variant="contained" onClick={searchFlight}>Search</Button>
+        </form>
     </Card>)
 }
 
