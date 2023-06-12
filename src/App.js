@@ -1,23 +1,28 @@
+import React, { useState } from 'react' 
 import logo from './logo.svg';
 import './App.css';
+import Header from './components/Layout/Header'
+import FlightCard from './components/UI/FlightCard'
+import FlightSearchForm from './components/Flights/FlightSearch/FlightSearchForm'
+import FlightResults from './components/Flights/FlightResults/FlightResults'
+
 
 function App() {
+
+  const [searchDetails, setSearchDetails] = useState([])
+
+  const updateSearchHandler = (flight) => {
+    console.log("from App.js -- flight DEP: " + flight.departureAirport + ", flight ARR: " + flight.arrivalAirport)
+
+    setSearchDetails(flight);
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+    <FlightSearchForm onSearchFlights={updateSearchHandler}/>
+    <FlightResults params={searchDetails}/>
     </div>
   );
 }
