@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '../../UI/Card'
-import FlightItem from './FlightItem'
+import FlightList from './FlightList'
 
 
 const FlightResults = (props) => {
@@ -8,6 +8,8 @@ const FlightResults = (props) => {
     console.log("From FlightResults Compontent")
     console.log("DEP Airport ---" + props.params.departureAirport)
     console.log("ARR Airport ---" + props.params.arrivalAirport)
+
+    const [flightList, setFlightList] = useState([]);
 
 
     useEffect(() => {
@@ -40,23 +42,43 @@ const FlightResults = (props) => {
             , options)
             .then(response => response.json())
             .then(response => {
-                console.log('* * * from inside of fetch')
-                console.log("* * * DEP: " + response.data[0].local_departure + ", ARR: " + response.data[0].local_arrival + ", PRICE: " + response.data[0].price + " " + curr)
+                const transformedResponse = response.data.map((flightsData) => {
+                    return {
+                        key: flightsData.id,
+                        depTime: flightsData.local_departure,
+                        arrTime: flightsData.local_arrival,
+                        price: flightsData.price,
+                        airlines: flightsData.airlines
 
-                for (let i = 0; i < response.data.length; i++) {
-                    console.log("DEP: " + response.data[i].local_departure + ", ARR: " + response.data[i].local_arrival + ", PRICE: " + response.data[i].price + " " + curr)
-                }
+                    };
+                });
 
-
+                setFlightList(transformedResponse);
+                console.log(transformedResponse)
             })
             .catch(error => console.log('error', error));
     }, [props.params.departureAirport, props.params.arrivalAirport])
 
 
     return (<Card>
-        <FlightItem />
+        <h3>Search for: {props.params.departureAirport} -- {props.params.arrivalAirport}</h3>
+        <FlightList flights={flightList}/>
     </Card>)
 }
 
 export default FlightResults;
 
+// .then(response => response.json())
+// .then(response => {
+//     console.log('* * * from inside of fetch')
+//     console.log("* * * DEP: " + response.data[0].local_departure + ", ARR: " + response.data[0].local_arrival + ", PRICE: " + response.data[0].price + " " + curr)
+
+//     for (let i = 0; i < response.data.length; i++) {
+//         console.log("DEP: " + response.data[i].local_departure + ", ARR: " + response.data[i].local_arrival + ", PRICE: " + response.data[i].price + " " + curr)
+//     }
+
+//     return response;
+
+// })
+// .catch(error => console.log('error', error));
+// }, [props.params.departureAirport, props.params.arrivalAirport])
