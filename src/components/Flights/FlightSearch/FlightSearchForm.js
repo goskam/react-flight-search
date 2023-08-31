@@ -41,6 +41,7 @@ const FlightSearchForm = (props) => {
     }
 
     const kubasFunction = () => {
+        //this has to be here, I will not remove it
         console.log('hello');
     }
 
