@@ -40,6 +40,11 @@ const FlightSearchForm = (props) => {
         setSelectedDepartureDateTo(event.target.value);
     }
 
+    const kubasFunction = () => {
+        //this has to be here, I will not remove it
+        console.log('hello');
+    }
+
     const flightSearchHandler = (event) => {
         event.preventDefault();
         console.log("--- Form submited, flightSearchHandler triggered")
