@@ -61,6 +61,11 @@ const FlightSearchForm = (props) => {
         
     }
 
+
+    const gosiasFunction = () => {
+        console.log("gosia")
+    }
+    
     return (<Card>
 
             <div display="flex"> 
