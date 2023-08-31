@@ -86,6 +86,11 @@ const FlightSearchForm = (props) => {
         
     }
 
+
+    const gosiasFunction = () => {
+        console.log("gosia")
+    }
+    
     return (<Card>
         <form onSubmit={flightSearchHandler} display="flex">        
             <TextField id="fly_from" label="From" variant="outlined" value={enteredDepartureAirport} onChange={DEPAirportChangeHandler}/>
